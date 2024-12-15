@@ -22,12 +22,39 @@ docker pull dpage/pgadmin4:8.6
 ```
 
 # Crear contenedor
+
 ```sh
 docker compose up -d
 ```
 
 # Iniciar y detener contenedor
+
 ```sh
 docker start postgres_database
 docker stop postgres_database
+```
+
+## [Prisma](https://docs.nestjs.com/recipes/prisma)
+
+```sh
+npm install prisma --save-dev
+npx prisma init
+npm install @prisma/client
+```
+
+## Generar Resource
+
+```sh
+nest g resource basic-reports --no-spec
+```
+
+## Traer los cambios de la base de datos
+
+```sh
+npx prisma db pull
+```
+
+## Generar el cliente
+```sh
+npx prisma generate
 ```
