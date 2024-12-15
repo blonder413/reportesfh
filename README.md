@@ -14,9 +14,20 @@ nest new report-server
 npm run start:dev
 ```
 
-# postgresql
+# Postgresql
 
 ```sh
 docker pull postgres:16.3
 docker pull dpage/pgadmin4:8.6
+```
+
+# Crear contenedor
+```sh
+docker compose up -d
+```
+
+# Iniciar y detener contenedor
+```sh
+docker start postgres_database
+docker stop postgres_database
 ```
