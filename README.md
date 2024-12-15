@@ -58,3 +58,9 @@ npx prisma db pull
 ```sh
 npx prisma generate
 ```
+
+[pdfmake](https://pdfmake.github.io/docs/0.1/)
+```sh
+npm i pdfmake
+npm i --save-dev @types/pdfmake
+```
