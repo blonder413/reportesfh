@@ -16,19 +16,43 @@ const logo: Content = {
   width: 130,
 };
 
+const currentDate: Content = {
+  alignment: 'right',
+  margin: [20, 30],
+  text: DateFormatter.getHumanDate(),
+  width: 150,
+};
+
 export const headerSection = (options: HeaderOptions): Content => {
   const { title, subtitle, showDate = true, showLogo = true } = options;
 
   const headerLogo: Content = showLogo ? logo : '';
-  const headerDate: Content = showDate
+  const headerDate: Content = showDate ? currentDate : '';
+  const headerSubtitle: Content = subtitle
     ? {
-        alignment: 'right',
-        margin: [0, 20, 20, 0],
-        text: DateFormatter.getHumanDate(),
+        text: subtitle,
+        alignment: 'center',
+        margin: [0, 2, 0, 0],
+        style: { fontSize: 16, bold: true },
       }
     : '';
   const headerTitle: Content = title
-    ? { text: title, style: { bold: true } }
+    ? {
+        stack: [
+          {
+            alignment: 'center',
+            margin: [0, 15, 0, 0],
+            style: {
+              bold: true,
+              fontSize: 22,
+            },
+            text: title,
+          },
+          headerSubtitle,
+        ],
+        // text: title,
+        // style: { bold: true },
+      }
     : '';
   return {
     columns: [headerLogo, headerTitle, headerDate],
