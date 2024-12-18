@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException, OnModuleInit } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
 import { PrinterService } from 'src/printer/printer.service';
-import { getEmploymentLetterReport, getHelloWorldReport } from 'src/reports';
+import { getEmploymentLetterReport, getEmploymentLetterReportById, getHelloWorldReport } from 'src/reports';
 
 @Injectable()
 export class BasicReportsService extends PrismaClient implements OnModuleInit {
@@ -30,7 +30,16 @@ export class BasicReportsService extends PrismaClient implements OnModuleInit {
     if (!employee) {
       throw new NotFoundException(`Empleado con ${employeeId} no encontrado`);
     }
-    const docDefinition = getEmploymentLetterReport();
+    const docDefinition = getEmploymentLetterReportById({
+      employerName: 'Jill Valentine',
+      employerPosition: 'Agente especial',
+      employeeName: employee.name,
+      employeePosition: employee.position,
+      employeeStartDate: employee.start_date,
+      employeeHours: employee.hours_per_day,
+      employeeWorkSchedule: employee.work_schedule,
+      employerCompany: 'BSAA',
+    });
     return this.printerService.createPdf(docDefinition);
   }
 }
