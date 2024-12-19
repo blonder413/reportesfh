@@ -37,11 +37,34 @@ export const getCountryReport = (
               country.continent,
               country.local_name,
             ]),
+            // ['','','','','Total', countries.length]
           ],
         },
       },
+      {
+        text: 'Totales',
+        style: {
+          fontSize: 16,
+          bold: true,
+          margin: [0, 40, 0, 0],
+        },
+      },
+      {
+        layout: 'noBorders',
+        table: {
+          headerRows: 1,
+          body: [
+            [
+              { text: 'Toal de paises', bold: true, colSpan:2 },
+              {},
+              { text: countries.length.toString(), bold: true, colSpan:3 },
+            ],
+          ],
+          widths: [50, 50, 50, '*', 'auto', '*'],
+        },
+      },
     ],
-    footer:footerSection,
+    footer: footerSection,
     header: headerSection({
       title: title ?? 'Country Report',
       subtitle: subtitle ?? 'List of countries',
