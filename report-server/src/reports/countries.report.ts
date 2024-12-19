@@ -22,7 +22,7 @@ export const getCountryReport = (
          * lightHorizontalLines
          * noBorders
          */
-        layout: 'lightHorizontalLines',
+        layout: 'customLayout01',
         table: {
           headerRows: 1,
           widths: [50, 50, 50, '*', 'auto', '*'],
@@ -37,7 +37,7 @@ export const getCountryReport = (
               country.continent,
               country.local_name,
             ]),
-            // ['','','','','Total', countries.length]
+            ['','','','','Total', countries.length]
           ],
         },
       },

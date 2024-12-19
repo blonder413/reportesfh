@@ -20,7 +20,7 @@ const currentDate: Content = {
   alignment: 'right',
   margin: [20, 30],
   text: DateFormatter.getHumanDate(),
-  width: 150,
+  width: 200,
 };
 
 export const headerSection = (options: HeaderOptions): Content => {
