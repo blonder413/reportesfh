@@ -5,6 +5,7 @@ import {
 } from 'pdfmake/interfaces';
 import { CurrencyFormatter, DateFormatter } from 'src/helpers';
 import { footerSection } from './sections/footer.section';
+import { text } from 'stream/consumers';
 
 const logo: Content = {
   image: 'src/assets/logo.png',
@@ -67,6 +68,12 @@ interface ReportValues {
 
 export const orderByIdReport = (value: ReportValues): TDocumentDefinitions => {
   const { data } = value;
+  const { customers, order_details } = data;
+  const subtotal = order_details.reduce(
+    (ac, detail) => ac + detail.quantity * +detail.products.price,
+    0,
+  );
+  const total = subtotal * 1.19;
   /* console.log(data); */
 
   return {
@@ -80,8 +87,8 @@ export const orderByIdReport = (value: ReportValues): TDocumentDefinitions => {
           {
             alignment: 'right',
             text: [
-              { text: `Recibo No. 413\n`, bold: true },
-              `Fecha del recibo: ${DateFormatter.getHumanDate()}\nPagar antes de: ${DateFormatter.getHumanDate()}\n`,
+              { text: `Recibo No. ${data.order_id}\n`, bold: true },
+              `Fecha del recibo: ${DateFormatter.getHumanDate(data.order_date)}\nPagar antes de: ${DateFormatter.getHumanDate()}\n`,
             ],
           },
         ],
@@ -92,8 +99,8 @@ export const orderByIdReport = (value: ReportValues): TDocumentDefinitions => {
       {
         text: [
           { text: 'Cobrar a:', style: 'subHeader' },
-          `\nRazón social: BSAA org,
-          USA`,
+          `\nRazón social: ${customers.customer_name},
+          Contacto: ${customers.contact_name}`,
         ],
       },
       // tabla del detalle de la orden
@@ -105,16 +112,21 @@ export const orderByIdReport = (value: ReportValues): TDocumentDefinitions => {
           widths: [50, '*', 'auto', 'auto', 'auto'],
           body: [
             ['Id', 'Descripción', 'Cantidad', 'Precio', 'Total'],
-            [
-              'Id',
-              'Descripción',
-              'Cantidad',
-              'Precio',
+            ...order_details.map((detail) => [
+              detail.order_detail_id.toString(),
+              detail.products.product_name,
+              detail.quantity.toString(),
               {
                 alignment: 'right',
-                text: CurrencyFormatter.formatCurrency(413),
+                text: CurrencyFormatter.formatCurrency(+detail.products.price),
               },
-            ],
+              {
+                alignment: 'right',
+                text: CurrencyFormatter.formatCurrency(
+                  +detail.products.price * detail.quantity,
+                ),
+              },
+            ]),
           ],
         },
       },
@@ -133,7 +145,7 @@ export const orderByIdReport = (value: ReportValues): TDocumentDefinitions => {
                   'Subtotal',
                   {
                     alignment: 'right',
-                    text: CurrencyFormatter.formatCurrency(1200),
+                    text: CurrencyFormatter.formatCurrency(subtotal),
                   },
                 ],
                 [
@@ -141,7 +153,7 @@ export const orderByIdReport = (value: ReportValues): TDocumentDefinitions => {
                   {
                     bold: true,
                     alignment: 'right',
-                    text: CurrencyFormatter.formatCurrency(1000),
+                    text: CurrencyFormatter.formatCurrency(total),
                   },
                 ],
               ],
