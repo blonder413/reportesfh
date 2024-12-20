@@ -23,7 +23,9 @@ const styles: StyleDictionary = {
 export const orderByIdReport = (): TDocumentDefinitions => {
   return {
     content: [
+      // Headers
       { style: 'header', text: 'BSAA' },
+      // dirección
       {
         columns: [
           { text: 'Raccoon City\nUSA' },
@@ -33,6 +35,8 @@ export const orderByIdReport = (): TDocumentDefinitions => {
           },
         ],
       },
+      // qr
+      { alignment: 'right', qr: 'https://blonder413.wordpress.com', fit: 75 },
     ],
     header: logo,
     pageMargins: [40, 60, 40, 60],
